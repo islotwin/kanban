@@ -1,0 +1,1 @@
+export const toArray = obj => Object.keys(obj || {}).reduce((arr, id) => [...arr, { ...obj[id], id }], [])
