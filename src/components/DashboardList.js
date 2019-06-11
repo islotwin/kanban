@@ -7,13 +7,17 @@ import randomColor from 'randomcolor'
 
 export const DashboardList = props => {
   const [dashboards, setDashboards] = useState([])
-  useEffect(() => {
+  const fetchDashboards = () => {
     DashboardService.getAll().then(setDashboards)
-  }, [])
+  }
+  const addDashboard = dashboard => {
+    DashboardService.create(dashboard).then(fetchDashboards)
+  }
+  useEffect(fetchDashboards, [])
   return (
     <StyledDashboardList>
       {dashboards.map(({ id, name }) => <DashboardElement key={id} name={name} id={id}/>)}
-      <AddElement/>
+      <AddElement onSubmit={addDashboard}/>
     </StyledDashboardList>
   )
 }
@@ -40,7 +44,13 @@ const AddElement = props => {
   const visible = isMouseOver || isFocused
   return (
     <StyledAddElement className={visible && "focused"} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-      <AddAction classes="dashboard" hidden={!visible} onFocusIn={focus} onFocusOut={blur}/>
+      <AddAction 
+        className="dashboard" 
+        hidden={!visible} 
+        onFocusIn={focus} 
+        onFocusOut={blur} 
+        onSubmit={props.onSubmit}
+      />
     </StyledAddElement> 
   )
 }

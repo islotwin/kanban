@@ -1,9 +1,9 @@
 import React from 'react'
 import { List } from './List'
 import styled from 'styled-components'
-import { AddAction } from '../components/AddAction'
 import { DashboardService } from '../services/DashboardService';
 import { ListService } from '../services/ListService';
+import { EditAction } from '../components/EditAction';
 
 export class Dashboard extends React.Component {
   state = {
@@ -31,9 +31,9 @@ export class Dashboard extends React.Component {
   }
   addList = name => {
     const { dashboard } = this.props.match.params
-    ListService.create(dashboard, name).then(() =>
-      ListService.getAll(dashboard).then(lists => this.setState({ lists }))
-    )
+    ListService.create(dashboard, name)
+      .then(() => ListService.getAll(dashboard))
+      .then(lists => this.setState({ lists }))
   }
   renderLists = () => {
     const { dashboard } = this.props.match.params
@@ -55,7 +55,7 @@ export class Dashboard extends React.Component {
         </DashboardName>
         <Lists>
           {this.renderLists()}
-          <AddAction placeholder="Add a list..." onSubmit={this.addList}/>
+          <EditAction placeholder="Add a list..." onSubmit={this.addList}/>
         </Lists>
       </StyledDashboard>
     )
@@ -68,6 +68,7 @@ const StyledDashboard = styled.div`
 `
 
 const DashboardName = styled.h3`
+  text-transform: capitalize;
 `
 
 const Lists = styled.div`

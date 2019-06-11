@@ -6,7 +6,7 @@ export const DashboardService = {
     return Service.post("/dashboards.json", { name: dashboard })
   },
   edit: (id, dashboard) => {
-    return Service.put("/dashboards/" + id + "/name.json", dashboard)
+    return Service.patch("/dashboards/" + id + ".json", { name: dashboard })
   },
   get: (id) => {
     return Service.get("/dashboards/" + id + ".json")

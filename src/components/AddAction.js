@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Input } from './UI/Input';
 
 export const AddAction = props => {
-  const { placeholder, onSubmit, hidden = false, onFocusIn, onFocusOut, classes } = props
+  const { placeholder, onSubmit, hidden = false, onFocusIn, onFocusOut, className } = props
   const [input, setInput] = useState("")
   const handleSubmit = event => {
     event.preventDefault()
@@ -11,7 +11,7 @@ export const AddAction = props => {
     setInput("")
   }
   return (
-    <StyledAddAction className={classes} onSubmit={handleSubmit}>
+    <StyledAddAction className={className} onSubmit={handleSubmit}>
         <Input 
           hidden={hidden}
           onFocus={onFocusIn}

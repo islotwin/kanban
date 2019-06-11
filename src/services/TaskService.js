@@ -7,7 +7,7 @@ export const TaskService = {
       .then(({ name }) => name)
   },
   edit: (dashboard, list, id, task) => {
-    return Service.put("/dashboards/" + dashboard + "/lists/" + list + "/tasks/" + id + ".json", task)
+    return Service.patch("/dashboards/" + dashboard + "/lists/" + list + "/tasks/" + id + ".json", task)
   },
   get: (dashboard, list, id) => {
     return Service.get("/dashboards/" + dashboard + "/lists/" + list + "/tasks/" + id + ".json")
