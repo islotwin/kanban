@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const Input = props => {
+export const Input = React.forwardRef((props, ref) => {
   const { multiline } = props
   return (
     <div>
-      {multiline ? <TextArea {...props}/> : <StyledInput {...props}/>}
+      {multiline ? <TextArea {...props} ref={ref} /> : <StyledInput {...props} ref={ref} />}
     </div>
   )
-}
+})
 
 const StyledInput = styled.input`
   outline: none;

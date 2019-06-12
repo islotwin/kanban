@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Input } from './UI/Input';
 
@@ -31,6 +31,19 @@ export const EditAction = props => {
   useEffect(() => {
     changeInput(value)
   }, [value])
+  useEffect(() => {
+    const node = inputRef.current
+    if (node) {
+      if (isFocused) {
+        node.focus()
+      }
+      else {
+        node.blur()
+      }
+    }
+  }, [isFocused])
+  const inputRef = useRef(null)
+
   return (
     <StyledEditAction className={className} onSubmit={handleSubmit}>
         <Input 
@@ -40,6 +53,7 @@ export const EditAction = props => {
           onChange={handleChange} 
           value={input} 
           placeholder={placeholder}
+          ref={inputRef}
         />
       <SubmitButton hidden={!isFocused} disabled={isButtonDisabled}>
         +

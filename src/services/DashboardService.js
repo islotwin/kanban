@@ -10,7 +10,7 @@ export const DashboardService = {
   },
   get: (id) => {
     return Service.get("/dashboards/" + id + ".json")
-      .then(({ name, lists }) => ({ name, lists: toArray(lists).map(({ name, id }) => ({ name, id }))}))
+      // .then(({ name, lists }) => ({ name, lists: toArray(lists).map(({ name, id }) => ({ name, id }))}))
   },
   getAll: () => {
     return Service.get("/dashboards.json")

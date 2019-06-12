@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { Draggable } from 'react-beautiful-dnd'
 
 export const Task = props => {
-  const { name, description } = props
-  
+  const { name, description, id, index } = props
   return (
-    <StyledTask>
-      <Title>{name}</Title>
-      {/* <Description>{description}</Description> */}
-    </StyledTask>
+    <Draggable draggableId={id} index={index} key={id}>
+      {provided => (
+        <StyledTask {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+          <Title>{name}</Title>
+          {/* <Description>{description}</Description> */}
+        </StyledTask>
+      )}
+    </Draggable>
   )
 }
 

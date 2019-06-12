@@ -1,14 +1,15 @@
 import React from 'react'
-import { List } from './List'
 import styled from 'styled-components'
 import { DashboardService } from '../services/DashboardService';
 import { ListService } from '../services/ListService';
-import { EditAction } from '../components/EditAction';
+import { DashboardContext } from '../context/DashboardContext';
+import { ListArea } from '../components/ListArea';
+import { toArray } from '../utils/toArray';
 
 export class Dashboard extends React.Component {
   state = {
     name: "",
-    lists: [],
+    lists: {},
   }
   componentDidMount() {
     const { dashboard } = this.props.match.params
@@ -21,12 +22,12 @@ export class Dashboard extends React.Component {
       this.changeDashboard(dashboard)
     }
   }
-  changeDashboard = dashboard => {
-    DashboardService.get(dashboard).then(({ name, lists }) => {
-      this.setState({
-        name,
-        lists: lists || []
-      })
+  changeDashboard = dashboardId => {
+    DashboardService.get(dashboardId).then(dashboard => {
+      if(dashboard) {
+        const { name, lists } = dashboard
+        this.setState({ name, lists })
+      }
     })
   }
   addList = name => {
@@ -35,28 +36,85 @@ export class Dashboard extends React.Component {
       .then(() => ListService.getAll(dashboard))
       .then(lists => this.setState({ lists }))
   }
-  renderLists = () => {
+  updateTasksIndices = tasks => {
+    return toArray(tasks)
+      .sort((a, b) => a.index - b.index)
+      .reduce((acc, task, index) => {
+        return Object.assign({}, acc, {
+          [task.id]: {
+            name: task.name,
+            ...(task.description && { description: task.description }),
+            index
+          }
+        })
+      }, {})
+  }
+  onDragEnd = ({ draggableId, source, destination }) => {
+    if(!destination) {
+      return
+    }
+    const { droppableId: sourceId } = source
+    const { droppableId: destinationId } = destination
+    const { lists } = this.state
+    const sourceList = lists[sourceId]
+    const destinationList = lists[destinationId]
+    const task = {...sourceList.tasks[draggableId]}
+    if(!task) {
+      return
+    }
     const { dashboard } = this.props.match.params
-    return this.state.lists.map(list => {
-      return <List 
-        key={list.id} 
-        dashboard={dashboard}
-        {...list}
-      />
-    })
+    const goneUp = destination.index > source.index
+    const changedList = destinationId !== sourceId
+    const indexDelta = goneUp && !changedList ? 0.5 : -0.5
+    task.index = destination.index + indexDelta
+    const destinationTasks = {...destinationList.tasks, [draggableId]: task}
+    const tasks = this.updateTasksIndices(destinationTasks)
+    if(destinationId === sourceId) {
+      this.setState(prevState => ({
+        lists: {
+          ...prevState.lists,
+          [destinationId]: { ...destinationList, tasks }
+        }
+      }))
+      ListService.editTasks(dashboard, destinationId, tasks).then(() => this.fetchList(destinationId))
+    }
+    else {
+      const sourceTasks = {...sourceList.tasks}
+      delete sourceTasks[draggableId]
+      const updatedSourceTasks = this.updateTasksIndices(sourceTasks)
+      this.setState(prevState => ({
+        lists: {
+          ...prevState.lists,
+          [destinationId]: { ...destinationList, tasks },
+          [sourceId]: { ...sourceList, tasks: updatedSourceTasks },
+        }
+      }))
+      ListService.editTasks(dashboard, destinationId, tasks).then(() => this.fetchList(destinationId))
+      ListService.editTasks(dashboard, sourceId, updatedSourceTasks).then(() => this.fetchList(sourceId))
+    }
+  }
+  fetchList = id => {
+    const { dashboard } = this.props.match.params
+    ListService.get(dashboard, id)
+      .then(fetchedList => {
+        this.setState(prevState => {
+          const lists = {...prevState.lists, [id]: fetchedList}
+          return { lists }
+        })
+      })
   }
   render() {
-    const { name } = this.state
+    const { name, lists } = this.state
+    const { dashboard } = this.props.match.params
 
     return (
       <StyledDashboard>
         <DashboardName>
           {name}
         </DashboardName>
-        <Lists>
-          {this.renderLists()}
-          <EditAction placeholder="Add a list..." onSubmit={this.addList}/>
-        </Lists>
+        <DashboardContext.Provider value={{ fetchList: this.fetchList, dashboard }}>
+          <ListArea lists={lists} addList={this.addList} onDragEnd={this.onDragEnd}/>
+        </DashboardContext.Provider>
       </StyledDashboard>
     )
   }
@@ -69,11 +127,4 @@ const StyledDashboard = styled.div`
 
 const DashboardName = styled.h3`
   text-transform: capitalize;
-`
-
-const Lists = styled.div`
-  display: flex;
-  align-items: flex-start;
-  overflow-x: scroll;
-  height: 100%;
 `
