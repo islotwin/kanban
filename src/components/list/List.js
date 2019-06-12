@@ -7,6 +7,7 @@ import { EditAction } from '../EditAction';
 import { Droppable } from 'react-beautiful-dnd'
 import { toArray } from '../../utils/toArray';
 import { DashboardContext } from '../../context/DashboardContext';
+import hexToRgba from 'hex-to-rgba';
 
 export class List extends React.Component {
   static contextType = DashboardContext
@@ -42,9 +43,10 @@ export class List extends React.Component {
   }
   render() {
     const { name, id } = this.props
-    console.log(name)
+    const { color } = this.context
+    console.log(name, color)
     return (
-      <StyledList>
+      <StyledList color={color}>
         <EditAction className="title" value={name} onSubmit={this.editName} max={30}/>
         <Droppable droppableId={id}>
           {provided => this.renderTaskArea(provided)}
@@ -63,7 +65,7 @@ const StyledList = styled.div`
   min-width: 250px;
   max-height: 600px;
   margin-right: 10px;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: ${props => props.color ? hexToRgba(props.color, 0.1) : "rgba(0, 0, 0, 0.02)"};
   padding: 20px;
   box-sizing: border-box;
   border-radius: 6px;

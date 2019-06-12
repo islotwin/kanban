@@ -18,7 +18,7 @@ export const DashboardElement = hover(props => {
 })
 
 export const StyledElement = styled.div`
-  background-color: ${props => props.color ? props.color : "#90FFAE"};
+  background-color: ${props => props.color ? props.color : "#eee"};
   border-radius: 24px;
   padding: 12px 16px;
   white-space: nowrap;

@@ -5,4 +5,5 @@ export const Image = styled.img`
   height: 18px;
   margin-left: auto;
   cursor: pointer;
+  opacity: 0.7;
 `

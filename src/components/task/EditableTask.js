@@ -42,8 +42,8 @@ export const EditableTask = props => {
           value={description} 
           multiline
         />
-        <Button disabled={!isInputValid()}>SAVE</Button>
-        <Button onClick={onCancel} type="reset">CANCEL</Button>
+        <Button className="ok" disabled={!isInputValid()}>SAVE</Button>
+        <Button className="cancel" onClick={onCancel} type="reset">CANCEL</Button>
       </form>
     </TaskContainer>
   )

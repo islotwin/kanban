@@ -10,6 +10,7 @@ export class Dashboard extends React.Component {
   state = {
     name: "",
     lists: {},
+    color: ""
   }
   componentDidMount() {
     const { dashboard } = this.props.match.params
@@ -25,8 +26,8 @@ export class Dashboard extends React.Component {
   changeDashboard = dashboardId => {
     DashboardService.get(dashboardId).then(dashboard => {
       if(dashboard) {
-        const { name, lists } = dashboard
-        this.setState({ name, lists })
+        const { name, lists, color } = dashboard
+        this.setState({ name, lists, color })
       }
       else {
         this.props.history.replace("/")
@@ -97,7 +98,7 @@ export class Dashboard extends React.Component {
       })
   }
   render() {
-    const { name, lists } = this.state
+    const { name, lists, color } = this.state
     const { dashboard } = this.props.match.params
 
     return (
@@ -105,7 +106,7 @@ export class Dashboard extends React.Component {
         <DashboardName>
           {name}
         </DashboardName>
-        <DashboardContext.Provider value={{ fetchList: this.fetchList, dashboard }}>
+        <DashboardContext.Provider value={{ fetchList: this.fetchList, dashboard, color }}>
           <ListArea lists={lists} addList={this.addList} onDragEnd={this.onDragEnd}/>
         </DashboardContext.Provider>
       </StyledDashboard>

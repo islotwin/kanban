@@ -56,10 +56,10 @@ export const EditAction = props => {
           placeholder={placeholder}
           ref={inputRef}
         />
-      <Button hidden={!isFocused} disabled={isButtonDisabled}>
+      <Button className="ok" hidden={!isFocused} disabled={isButtonDisabled}>
         save
       </Button>
-      <Button hidden={!isFocused} type="reset" onClick={reset}>
+      <Button className="cancel" hidden={!isFocused} type="reset" onClick={reset}>
         cancel
       </Button>
     </StyledEditAction>
