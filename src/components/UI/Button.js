@@ -8,4 +8,6 @@ export const Button = styled.button`
   border-radius: 4px;
   padding: 4px 6px;
   font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
 `

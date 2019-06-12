@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { EditAction } from './EditAction';
+import { EditAction } from '../EditAction';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { List } from './List';
-import { toArray } from '../utils/toArray';
+import { toArray } from '../../utils/toArray';
 
 export const ListArea = props => {
   const renderLists = () => {

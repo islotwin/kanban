@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Task } from './Task';
-import { ListService } from '../services/ListService';
-import { TaskService } from '../services/TaskService';
-import { EditAction } from './EditAction';
+import { Task } from '../task/Task';
+import { ListService } from '../../services/ListService';
+import { TaskService } from '../../services/TaskService';
+import { EditAction } from '../EditAction';
 import { Droppable } from 'react-beautiful-dnd'
-import { toArray } from '../utils/toArray';
-import { DashboardContext } from '../context/DashboardContext';
+import { toArray } from '../../utils/toArray';
+import { DashboardContext } from '../../context/DashboardContext';
 
 export class List extends React.Component {
   static contextType = DashboardContext

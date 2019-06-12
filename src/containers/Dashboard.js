@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { DashboardService } from '../services/DashboardService';
 import { ListService } from '../services/ListService';
 import { DashboardContext } from '../context/DashboardContext';
-import { ListArea } from '../components/ListArea';
+import { ListArea } from '../components/list/ListArea';
 import { toArray } from '../utils/toArray';
 
 export class Dashboard extends React.Component {

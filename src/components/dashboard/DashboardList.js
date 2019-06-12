@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DashboardService } from '../services/DashboardService';
-import { AddAction } from './AddAction';
-import { NavLink } from 'react-router-dom'
-import { toArray } from '../utils/toArray';
+import { DashboardService } from '../../services/DashboardService';
+import { AddAction } from '../AddAction';
+import { toArray } from '../../utils/toArray';
+import { DashboardElement, StyledElement } from './DashboardElement';
 
 export const DashboardList = props => {
   const [dashboards, setDashboards] = useState([])
@@ -22,23 +22,6 @@ export const DashboardList = props => {
       {dashboards.map(({ id, name, color }) => <DashboardElement key={id} name={name} id={id} color={color}/>)}
       <AddElement onSubmit={addDashboard}/>
     </StyledDashboardList>
-  )
-}
-
-const DashboardElement = props => {
-  const { name, id, color } = props
-  const [isMouseOver, setIsMouseOver] = useState(false)
-  return (
-    <Link to={"/" + id}>
-      <StyledElement 
-        className={isMouseOver && "focused"} 
-        onMouseEnter={() => setIsMouseOver(true)} 
-        onMouseLeave={() => setIsMouseOver(false)}
-        color={color}
-      >
-        {isMouseOver ? name : name[0]}
-      </StyledElement> 
-    </Link>
   )
 }
 
@@ -72,34 +55,7 @@ const StyledDashboardList = styled.div`
   position: absolute;
 `
 
-const StyledElement = styled.div`
-  background-color: ${props => props.color ? props.color : "#90FFAE"};
-  border-radius: 24px;
-  padding: 12px 16px;
-  white-space: nowrap;
-  max-width: min-content;
-  font-size: 18px;
-  font-weight: 600;
-  
-  &.focused {
-    box-shadow: 2px 5px 18px -10px rgba(0, 0, 0, 0.75);
-  }
-`
-
 const StyledAddElement = styled(StyledElement)`
   max-width: min-content;
-  margin: 20px 40px;
-`
-
-const Link = styled(NavLink)`
-  outline: none;
-  text-decoration: none;
-  text-transform: uppercase;
-  color: #fff;
-  max-width: min-content;
-  margin: 20px 40px;
-
-  &.active, &:hover {
-      font-weight: 600;
-  }
+  margin-top: 20px;
 `

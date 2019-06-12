@@ -57,10 +57,10 @@ export const EditAction = props => {
           ref={inputRef}
         />
       <Button hidden={!isFocused} disabled={isButtonDisabled}>
-        +
+        save
       </Button>
       <Button hidden={!isFocused} type="reset" onClick={reset}>
-        x
+        cancel
       </Button>
     </StyledEditAction>
   )
