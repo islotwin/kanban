@@ -1,9 +1,9 @@
 import { Service } from "./Service";
-import { toArray } from "../utils/toArray";
+import { randomColor } from 'randomcolor'
 
 export const DashboardService = {
   create: (dashboard) => {
-    return Service.post("/dashboards.json", { name: dashboard })
+    return Service.post("/dashboards.json", { name: dashboard, color: randomColor() })
   },
   edit: (id, dashboard) => {
     return Service.patch("/dashboards/" + id + ".json", { name: dashboard })
@@ -14,8 +14,6 @@ export const DashboardService = {
   },
   getAll: () => {
     return Service.get("/dashboards.json")
-      .then(toArray)
-      .then(d => d.map(({ name, id }) => ({ name, id })))
   },
   delete: (id) => {
     return Service.delete("/dashboards/" + id + ".json")

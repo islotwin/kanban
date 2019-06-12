@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Input } from './UI/Input';
+import { Button } from './UI/Button';
 
 export const EditAction = props => {
   const { value = "", onSubmit, className, placeholder, multiline, min = 0, max = 250 } = props
@@ -55,25 +56,15 @@ export const EditAction = props => {
           placeholder={placeholder}
           ref={inputRef}
         />
-      <SubmitButton hidden={!isFocused} disabled={isButtonDisabled}>
+      <Button hidden={!isFocused} disabled={isButtonDisabled}>
         +
-      </SubmitButton>
-      <SubmitButton hidden={!isFocused} type="reset" onClick={reset}>
+      </Button>
+      <Button hidden={!isFocused} type="reset" onClick={reset}>
         x
-      </SubmitButton>
+      </Button>
     </StyledEditAction>
   )
 }
-
-const SubmitButton = styled.button`
-  outline: none;
-  border: 1px solid #ccc;
-  margin-right: 5px;
-  margin-top: 10px;
-  border-radius: 4px;
-  padding: 4px 6px;
-  font-weight: 600;
-`
 
 const StyledEditAction = styled.form`
   &.title {

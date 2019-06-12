@@ -50,10 +50,10 @@ export class List extends React.Component {
     )
   }
   renderTasks = () => {
-    const { tasks } = this.props
+    const { tasks, id } = this.props
     return toArray(tasks)
       .sort((a, b) => a.index - b.index)
-      .map(task => <Task key={task.id} {...task}/>)
+      .map(task => <Task key={task.id} {...task} list={id}/>)
   }
   render() {
     const { name, id } = this.props

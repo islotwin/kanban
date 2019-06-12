@@ -1,5 +1,4 @@
 import { Service } from "./Service";
-import { toArray } from "../utils/toArray";
 
 export const ListService = {
   create: (dashboard, list) => {

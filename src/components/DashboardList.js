@@ -3,12 +3,15 @@ import styled from 'styled-components'
 import { DashboardService } from '../services/DashboardService';
 import { AddAction } from './AddAction';
 import { NavLink } from 'react-router-dom'
-import randomColor from 'randomcolor'
+import { toArray } from '../utils/toArray';
 
 export const DashboardList = props => {
   const [dashboards, setDashboards] = useState([])
   const fetchDashboards = () => {
-    DashboardService.getAll().then(setDashboards)
+    DashboardService.getAll()
+      .then(toArray)
+      .then(dashboards => dashboards.map(({ id, name, color }) => ({ id, name, color })))
+      .then(setDashboards)
   }
   const addDashboard = dashboard => {
     DashboardService.create(dashboard).then(fetchDashboards)
@@ -16,18 +19,23 @@ export const DashboardList = props => {
   useEffect(fetchDashboards, [])
   return (
     <StyledDashboardList>
-      {dashboards.map(({ id, name }) => <DashboardElement key={id} name={name} id={id}/>)}
+      {dashboards.map(({ id, name, color }) => <DashboardElement key={id} name={name} id={id} color={color}/>)}
       <AddElement onSubmit={addDashboard}/>
     </StyledDashboardList>
   )
 }
 
 const DashboardElement = props => {
-  const { name, id } = props
+  const { name, id, color } = props
   const [isMouseOver, setIsMouseOver] = useState(false)
   return (
     <Link to={"/" + id}>
-      <StyledElement className={isMouseOver && "focused"} onMouseEnter={() => setIsMouseOver(true)} onMouseLeave={() => setIsMouseOver(false)}>
+      <StyledElement 
+        className={isMouseOver && "focused"} 
+        onMouseEnter={() => setIsMouseOver(true)} 
+        onMouseLeave={() => setIsMouseOver(false)}
+        color={color}
+      >
         {isMouseOver ? name : name[0]}
       </StyledElement> 
     </Link>
@@ -61,12 +69,11 @@ const StyledDashboardList = styled.div`
   left: 0;
   top: 0;
   z-index: 100;
-  position: fixed;
-  height: 100%;
+  position: absolute;
 `
 
 const StyledElement = styled.div`
-  background-color: ${() => randomColor()};
+  background-color: ${props => props.color ? props.color : "#90FFAE"};
   border-radius: 24px;
   padding: 12px 16px;
   white-space: nowrap;

@@ -29,5 +29,5 @@ const Lists = styled.div`
   display: flex;
   align-items: flex-start;
   overflow-x: scroll;
-  height: 100%;
+  flex-grow: 1;
 `

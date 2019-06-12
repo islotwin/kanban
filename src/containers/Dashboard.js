@@ -28,6 +28,9 @@ export class Dashboard extends React.Component {
         const { name, lists } = dashboard
         this.setState({ name, lists })
       }
+      else {
+        this.props.history.replace("/")
+      }
     })
   }
   addList = name => {
@@ -123,8 +126,13 @@ export class Dashboard extends React.Component {
 const StyledDashboard = styled.div`
   margin-left: 120px;
   height: 100%;
+  padding-top: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 `
 
 const DashboardName = styled.h3`
+  margin-top: 0;
   text-transform: capitalize;
 `
