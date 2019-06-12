@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Input } from './UI/Input';
 import { Button } from './UI/Button'
 
-export const AddAction = props => {
+export const AddDashboardAction = props => {
   const { placeholder, onSubmit, hidden = false, onFocusIn, onFocusOut, className } = props
   const [input, setInput] = useState("")
   const handleSubmit = event => {

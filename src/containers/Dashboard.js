@@ -52,26 +52,16 @@ export class Dashboard extends React.Component {
         })
       }, {})
   }
-  onDragEnd = ({ draggableId, source, destination }) => {
-    if(!destination) {
-      return
-    }
-    const { droppableId: sourceId } = source
-    const { droppableId: destinationId } = destination
+  onDragEnd = ({ sourceId, destinationId, taskId, taskIndex }) => {
     const { lists } = this.state
     const sourceList = lists[sourceId]
     const destinationList = lists[destinationId]
-    const task = {...sourceList.tasks[draggableId]}
-    if(!task) {
-      return
-    }
     const { dashboard } = this.props.match.params
-    const goneUp = destination.index > source.index
-    const changedList = destinationId !== sourceId
-    const indexDelta = goneUp && !changedList ? 0.5 : -0.5
-    task.index = destination.index + indexDelta
-    const destinationTasks = {...destinationList.tasks, [draggableId]: task}
+    let task = sourceList.tasks[taskId]
+    task = { ...task, index: taskIndex }
+    const destinationTasks = {...destinationList.tasks, [taskId]: task}
     const tasks = this.updateTasksIndices(destinationTasks)
+
     if(destinationId === sourceId) {
       this.setState(prevState => ({
         lists: {
@@ -83,7 +73,7 @@ export class Dashboard extends React.Component {
     }
     else {
       const sourceTasks = {...sourceList.tasks}
-      delete sourceTasks[draggableId]
+      delete sourceTasks[taskId]
       const updatedSourceTasks = this.updateTasksIndices(sourceTasks)
       this.setState(prevState => ({
         lists: {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DashboardService } from '../../services/DashboardService';
-import { AddAction } from '../AddAction';
+import { AddDashboardAction } from '../AddAction';
 import { toArray } from '../../utils/toArray';
 import { DashboardElement, StyledElement } from './DashboardElement';
 
@@ -35,7 +35,7 @@ const AddElement = props => {
   const visible = isMouseOver || isFocused
   return (
     <StyledAddElement className={visible && "focused"} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-      <AddAction 
+      <AddDashboardAction 
         className="dashboard" 
         hidden={!visible} 
         onFocusIn={focus} 

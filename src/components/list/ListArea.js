@@ -15,8 +15,22 @@ export const ListArea = props => {
       />
     })
   }
+  const onDragEnd = ({ draggableId, source, destination }) => {
+    if(!destination) {
+      return
+    }
+    const { droppableId: sourceId } = source
+    const { droppableId: destinationId } = destination
+    
+    const goneUp = destination.index > source.index
+    const changedList = destinationId !== sourceId
+    const indexDelta = goneUp && !changedList ? 0.5 : -0.5
+    const taskIndex = destination.index + indexDelta
+
+    return props.onDragEnd({ taskIndex, sourceId, destinationId, taskId: draggableId })
+  }
   return (
-    <DragDropContext onDragEnd={props.onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <Lists>
         {renderLists()}
         <EditAction placeholder="Add a list..." onSubmit={props.addList}/>

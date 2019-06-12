@@ -26,6 +26,9 @@ export const EditableTask = props => {
   const onCancel = () => {
     props.stopEdit()
   }
+  const isInputValid = () => {
+    return name.length > 0 && name.length <= 30
+  }
   return (
     <TaskContainer>
       <form onSubmit={onSubmit}>
@@ -39,7 +42,7 @@ export const EditableTask = props => {
           value={description} 
           multiline
         />
-        <Button>SAVE</Button>
+        <Button disabled={!isInputValid()}>SAVE</Button>
         <Button onClick={onCancel} type="reset">CANCEL</Button>
       </form>
     </TaskContainer>

@@ -10,26 +10,12 @@ import { DashboardContext } from '../../context/DashboardContext';
 
 export class List extends React.Component {
   static contextType = DashboardContext
-  constructor(props) {
-    super(props)
-    console.log(props.name, 'constructor')
-  }
   fetchList = () => {
     this.context.fetchList(this.props.id)
-  }
-  shouldComponentUpdate(nextProps) {
-    const { name, tasks } = this.props
-    console.log('shouldupdate')
-    console.log(name, name !== nextProps.name || tasks !== nextProps.tasks)
-    return name !== nextProps.name || tasks !== nextProps.tasks
-  }
-  componentDidUpdate(prevProps) {
-    console.log(this.props.name, 'didupdate')
   }
   addTask = name => {
     const { id } = this.props
     const { dashboard } = this.context
-    console.log(id, dashboard)
     const index = Object.keys(this.props.tasks || {}).length
     TaskService.create(dashboard, id, { name, index })
       .then(this.fetchList)
@@ -37,7 +23,6 @@ export class List extends React.Component {
   editName = name => {
     const { id } = this.props
     const { dashboard } = this.context
-    console.log(dashboard, id, name)
     ListService.editName(dashboard, id, name)
     .then(this.fetchList)
   }
@@ -71,6 +56,7 @@ export class List extends React.Component {
 } 
 
 const TaskArea = styled.div`
+  min-height: 10px;
 `
 
 const StyledList = styled.div`
