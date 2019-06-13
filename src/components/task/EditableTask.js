@@ -33,10 +33,11 @@ export const EditableTask = props => {
     <TaskContainer>
       <form onSubmit={onSubmit}>
         <TaskHeader>
-          <Input onChange={onNameChange} value={name} style={inputStyle}/>
+          <Input className={"focus"} onChange={onNameChange} value={name} style={inputStyle}/>
           <Image src={EditIcon} onClick={props.stopEdit}/>
         </TaskHeader>
         <Input 
+          className={"focus"}
           style={descriptionStyle} 
           onChange={onDescriptionChange} 
           value={description} 
@@ -51,7 +52,8 @@ export const EditableTask = props => {
 
 const inputStyle = {
   minWidth: "unset", 
-  padding: 0
+  padding: 0,
+  paddingBottom: "4px"
 }
 
 const descriptionStyle = {

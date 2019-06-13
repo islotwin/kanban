@@ -9,7 +9,6 @@ import { TaskContainer, TaskHeader } from './TaskContainer';
 
 const HoverTask = props => {
   const { name, description, id, index, list, isHovered } = props
-  console.log(isHovered)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEdited, setIsEdited] = useState(false)
   const toggleIsExpanded = () => {
@@ -23,13 +22,15 @@ const HoverTask = props => {
     }
   }
   if(isEdited) {
-    return <EditableTask 
-      name={name} 
-      description={description} 
-      stopEdit={() => setIsEdited(false)}
-      list={list}
-      id={id}
-    />
+    return (
+      <EditableTask 
+        name={name} 
+        description={description} 
+        stopEdit={() => setIsEdited(false)}
+        list={list}
+        id={id}
+      />
+    )
   }
   return (
     <Draggable draggableId={id} index={index} key={id}>
@@ -40,7 +41,7 @@ const HoverTask = props => {
           ref={provided.innerRef}
           onClick={toggleIsExpanded}
         >
-          <TaskHeader>
+          <TaskHeader style={{ paddingBottom: "4px" }}>
             <Title>{name}</Title>
             <HoverableImage visible={isHovered} src={EditIcon} onClick={toggleIsEdited}/>
           </TaskHeader>

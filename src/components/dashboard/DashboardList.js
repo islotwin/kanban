@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DashboardService } from '../../services/DashboardService';
-import { AddDashboardAction } from '../AddAction';
 import { toArray } from '../../utils/toArray';
-import { DashboardElement, StyledElement } from './DashboardElement';
+import { DashboardLink } from './DashboardLink';
+import { AddDashboardAction } from './AddDashboardAction';
 
 export const DashboardList = props => {
   const [dashboards, setDashboards] = useState([])
@@ -14,37 +14,21 @@ export const DashboardList = props => {
       .then(setDashboards)
   }
   const addDashboard = dashboard => {
-    DashboardService.create(dashboard).then(fetchDashboards)
+    DashboardService.create(dashboard)
+    .then(({ name }) => {
+      props.history.push("/" + name)
+    })
+    .then(fetchDashboards)
   }
   useEffect(fetchDashboards, [])
   return (
     <StyledDashboardList>
-      {dashboards.map(({ id, name, color }) => <DashboardElement key={id} name={name} id={id} color={color}/>)}
-      <AddElement onSubmit={addDashboard}/>
+      {dashboards.map(({ id, name, color }) => <DashboardLink key={id} name={name} id={id} color={color}/>)}
+      <AddDashboardAction onSubmit={addDashboard}/>
     </StyledDashboardList>
   )
 }
 
-const AddElement = props => {
-  const [isMouseOver, setIsMouseOver] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
-  const mouseEnter = () => setIsMouseOver(true)
-  const mouseLeave = () => setIsMouseOver(false)
-  const focus = () => setIsFocused(true)
-  const blur = () => setIsFocused(false)
-  const visible = isMouseOver || isFocused
-  return (
-    <StyledAddElement className={visible && "focused"} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-      <AddDashboardAction 
-        className="dashboard" 
-        hidden={!visible} 
-        onFocusIn={focus} 
-        onFocusOut={blur} 
-        onSubmit={props.onSubmit}
-      />
-    </StyledAddElement> 
-  )
-}
 
 const StyledDashboardList = styled.div`
   display: flex;
@@ -53,9 +37,4 @@ const StyledDashboardList = styled.div`
   top: 0;
   z-index: 100;
   position: absolute;
-`
-
-const StyledAddElement = styled(StyledElement)`
-  max-width: min-content;
-  margin-top: 20px;
 `
