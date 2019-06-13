@@ -61,7 +61,7 @@ const TaskArea = styled.div`
 `
 
 const StyledList = styled.div`
-  min-width: 250px;
+  width: 250px;
   max-height: 600px;
   margin-right: 10px;
   background-color: ${props => props.color ? hexToRgba(props.color, 0.1) : "rgba(0, 0, 0, 0.02)"};
