@@ -27,7 +27,7 @@ export const AddDashboardAction = hover(props => {
           value={input} 
           placeholder="Add a dashboard..."
         />
-        <SumbitButton disabled={!visible}>
+        <SumbitButton disabled={!visible || input.length <= 0}>
           +
         </SumbitButton>
       </Form>
