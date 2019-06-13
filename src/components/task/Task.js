@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
 import EditIcon from '../../assets/edit.svg'
 import { hover } from '../../hoc/hover';
-import { EditableTask } from './EditableTask';
+import { EditableTask } from './EditableTask/EditableTask';
 import { Image } from '../UI/Image';
 import { TaskContainer, TaskHeader } from './TaskContainer';
 
-const HoverTask = props => {
+export const HoverTask = props => {
   const { name, description, id, index, list, isHovered } = props
   const [isExpanded, setIsExpanded] = useState(false)
   const [isEdited, setIsEdited] = useState(false)
@@ -60,7 +60,7 @@ const Title = styled.p`
   margin: 0;
 `
 
-const Description = styled.p`
+export const Description = styled.p`
   font-size: 12px;
   font-weight: 500;
   margin-top: 12px;

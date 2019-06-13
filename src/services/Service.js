@@ -6,6 +6,5 @@ export const Service = axios.create({
 
 // Add a response interceptor to instance
 Service.interceptors.response.use(res => {
-    console.log(res)
     return res.data
   }, err => Promise.reject(err))

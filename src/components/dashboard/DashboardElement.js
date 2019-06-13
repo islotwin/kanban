@@ -11,6 +11,6 @@ export const DashboardElement = styled.div`
   margin-left: 20px;
   
   &.focused {
-    box-shadow: 2px 5px 18px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 1px 2px 6px 0 rgba(0, 0, 0, 0.25)
   }
 `

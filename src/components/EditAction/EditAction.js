@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { Input } from './UI/Input';
-import { Button } from './UI/Button';
+import { Input } from '../UI/Input';
+import { Button } from '../UI/Button';
 
 export const EditAction = props => {
   const { value = "", onSubmit, className, placeholder, multiline, min = 0, max = 250 } = props
@@ -46,7 +46,7 @@ export const EditAction = props => {
   const inputRef = useRef(null)
 
   return (
-    <StyledEditAction className={className} onSubmit={handleSubmit}>
+    <Form className={className} onSubmit={handleSubmit}>
         <Input 
           multiline={multiline}
           className={isFocused ? "header focus" : "header"}
@@ -62,11 +62,11 @@ export const EditAction = props => {
       <Button className="cancel" hidden={!isFocused} type="reset" onClick={reset}>
         cancel
       </Button>
-    </StyledEditAction>
+    </Form>
   )
 }
 
-const StyledEditAction = styled.form`
+const Form = styled.form`
   &.title {
     margin-top: 0;
     margin-bottom: 16px;

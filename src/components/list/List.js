@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Task } from '../task/Task';
 import { ListService } from '../../services/ListService';
 import { TaskService } from '../../services/TaskService';
-import { EditAction } from '../EditAction';
+import { EditAction } from '../EditAction/EditAction';
 import { Droppable } from 'react-beautiful-dnd'
 import { toArray } from '../../utils/toArray';
 import { DashboardContext } from '../../context/DashboardContext';
@@ -44,7 +44,6 @@ export class List extends React.Component {
   render() {
     const { name, id } = this.props
     const { color } = this.context
-    console.log(name, color)
     return (
       <StyledList color={color}>
         <EditAction className="title" value={name} onSubmit={this.editName} max={30}/>

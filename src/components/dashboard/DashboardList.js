@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { DashboardService } from '../../services/DashboardService';
 import { toArray } from '../../utils/toArray';
 import { DashboardLink } from './DashboardLink';
-import { AddDashboardAction } from './AddDashboardAction';
+import { AddDashboardAction } from './AddDashboardAction/AddDashboardAction';
 
 export const DashboardList = props => {
   const [dashboards, setDashboards] = useState([])

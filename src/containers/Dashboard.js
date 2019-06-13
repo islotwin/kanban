@@ -4,7 +4,7 @@ import { DashboardService } from '../services/DashboardService';
 import { ListService } from '../services/ListService';
 import { DashboardContext } from '../context/DashboardContext';
 import { ListArea } from '../components/list/ListArea';
-import { toArray } from '../utils/toArray';
+import { updateTasksIndices } from '../utils/updateTasksIndices';
 
 export class Dashboard extends React.Component {
   state = {
@@ -37,21 +37,7 @@ export class Dashboard extends React.Component {
   addList = name => {
     const { dashboard } = this.props.match.params
     ListService.create(dashboard, name)
-      .then(() => ListService.getAll(dashboard))
-      .then(lists => this.setState({ lists }))
-  }
-  updateTasksIndices = tasks => {
-    return toArray(tasks)
-      .sort((a, b) => a.index - b.index)
-      .reduce((acc, task, index) => {
-        return Object.assign({}, acc, {
-          [task.id]: {
-            name: task.name,
-            ...(task.description && { description: task.description }),
-            index
-          }
-        })
-      }, {})
+      .then(({ name }) => this.fetchList(name))
   }
   onDragEnd = ({ sourceId, destinationId, taskId, taskIndex }) => {
     const { lists } = this.state
@@ -61,7 +47,7 @@ export class Dashboard extends React.Component {
     let task = sourceList.tasks[taskId]
     task = { ...task, index: taskIndex }
     const destinationTasks = {...destinationList.tasks, [taskId]: task}
-    const tasks = this.updateTasksIndices(destinationTasks)
+    const tasks = updateTasksIndices(destinationTasks)
 
     if(destinationId === sourceId) {
       this.setState(prevState => ({
@@ -75,7 +61,7 @@ export class Dashboard extends React.Component {
     else {
       const sourceTasks = {...sourceList.tasks}
       delete sourceTasks[taskId]
-      const updatedSourceTasks = this.updateTasksIndices(sourceTasks)
+      const updatedSourceTasks = updateTasksIndices(sourceTasks)
       this.setState(prevState => ({
         lists: {
           ...prevState.lists,

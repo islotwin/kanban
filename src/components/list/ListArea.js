@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { EditAction } from '../EditAction';
+import { EditAction } from '../EditAction/EditAction';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { List } from './List';
 import { toArray } from '../../utils/toArray';

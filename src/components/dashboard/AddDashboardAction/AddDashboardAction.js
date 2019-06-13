@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { hover } from '../../hoc/hover';
-import { Button } from '../UI/Button';
-import { Input } from '../UI/Input';
-import { DashboardElement } from './DashboardElement';
+import { hover } from '../../../hoc/hover';
+import { Button } from '../../UI/Button';
+import { Input } from '../../UI/Input';
+import { DashboardElement } from '../DashboardElement';
 
 export const AddDashboardAction = hover(props => {
   const [isFocused, setIsFocused] = useState(false)
@@ -16,10 +16,16 @@ export const AddDashboardAction = hover(props => {
     props.onSubmit(input)
     setInput("")
   }
+  useEffect(() => {
+    if(!visible) {
+      setInput("")
+    }
+  }, [visible])
   return (
     <StyledDashboardElement className={visible && "focused"}>
       <Form onSubmit={handleSubmit}>
         <Input 
+          style={{ marginRight: "4px" }}
           hidden={!visible}
           onFocus={focus}
           onBlur={blur}
@@ -49,6 +55,6 @@ const SumbitButton = styled(Button)`
     margin: 0;
     padding: 0;
     border: none;
-    color: #fff;
+    color: ${props => props.disabled ? "#ccc" : "#666"};
     font-size: 18px;
 `
