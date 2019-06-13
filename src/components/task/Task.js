@@ -62,6 +62,8 @@ const Title = styled.p`
 const Description = styled.p`
   font-size: 12px;
   font-weight: 500;
+  margin-top: 12px;
+  margin-bottom: 12px;
 `
 
 export const Task = hover(HoverTask)

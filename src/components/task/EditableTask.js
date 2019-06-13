@@ -58,4 +58,6 @@ const descriptionStyle = {
   ...inputStyle,
   fontSize: "12px",
   fontWeight: "500",
+  marginTop: "11px",
+  marginBottom: "12px"
 }
